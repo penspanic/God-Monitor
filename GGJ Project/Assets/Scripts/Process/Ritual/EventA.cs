@@ -15,7 +15,5 @@ public class EventA : EventBase
     protected override void Awake()
     {
         base.Awake();
-
-
     }
 }

@@ -3,27 +3,28 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour
+{
 
     public Transform[] eventCreateTransform;
-    
-    bool[] isEventCreated;
 
-    
+    public bool[] isEventCreated;
+
+    EventFactory eventFactory;
     void Awake()
     {
         isEventCreated = new bool[eventCreateTransform.Length];
-
+        eventFactory = GameObject.FindObjectOfType<EventFactory>();
         StartCoroutine(EventCreateProcess());
     }
-	void Update () 
+    void Update()
     {
-	
-	}
+
+    }
 
     IEnumerator EventCreateProcess()
     {
-        while(true)
+        while (true)
         {
             yield return new WaitForSeconds(1f);
 
@@ -34,17 +35,25 @@ public class EventManager : MonoBehaviour {
     void CreateEvent()
     {
         int createIndex = 0;
-        while(true)
+        bool isEmptyPlaceExist = false;
+        for (int i = 0; i < isEventCreated.Length; i++)
+        {
+            if (!isEventCreated[i])
+                isEmptyPlaceExist = true;
+        }
+        if (!isEmptyPlaceExist)
+            return;
+        while (true)
         {
             createIndex = Random.Range(0, eventCreateTransform.Length);
             if (isEventCreated[createIndex])
                 continue;
             else
                 break;
-                
+
         }
         isEventCreated[createIndex] = true;
 
-        EventFactory.CreateEvent().SetEvent();
+        eventFactory.CreateEvent(eventCreateTransform[createIndex]).SetEvent(createIndex);
     }
 }
