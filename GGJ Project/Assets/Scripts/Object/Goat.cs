@@ -6,6 +6,7 @@ public class Goat : MonoBehaviour
     const float moveMinX = -5f;
     const float moveMaxX = 5f;
 
+    public bool beingDragged;
 
     Vector2 targetPos;
     Animator animator;
@@ -64,20 +65,24 @@ public class Goat : MonoBehaviour
 
     IEnumerator MoveProcess()
     {
-        animator.Play("Goat_Walk");
-        float elapsedTime = 0f;
-        float moveTime = Random.Range(3, 5);
-        Vector2 startPos = transform.position;
-        while (elapsedTime < moveTime)
+        if(!beingDragged)
         {
-            elapsedTime += Time.deltaTime;
-            transform.position = Vector2.Lerp(startPos, targetPos, elapsedTime / moveTime);
-            yield return null;
+            animator.Play( "Goat_Walk" );
+            float elapsedTime = 0f;
+            float moveTime = Random.Range( 3, 5 );
+            Vector2 startPos = transform.position;
+            while( !beingDragged && elapsedTime < moveTime )
+            {
+                elapsedTime += Time.deltaTime;
+                transform.position = Vector2.Lerp( startPos, targetPos, elapsedTime / moveTime );
+                yield return null;
+            }
+
+            animator.Play( "Goat_Breathe" );
+            yield return new WaitForSeconds( 3f );
+            moveEnd = true;
         }
-
-        animator.Play("Goat_Breathe");
-        yield return new WaitForSeconds(3f);
-        moveEnd = true;
-
+        else
+            yield return null;
     }
 }

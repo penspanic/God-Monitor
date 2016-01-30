@@ -18,7 +18,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
         selectedObject = gameObject;
         startParent = transform.parent;
-        gameObject.layer = 2;
+        gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
         startPos = transform.position;
     }
 
@@ -28,6 +28,9 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         worldPos.z = Camera.main.nearClipPlane;
         worldPos = Camera.main.ScreenToWorldPoint(worldPos);
         transform.position = worldPos;
+        var goat = GetComponent<Goat>();
+        if(goat != null)
+            goat.beingDragged = true;
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -38,10 +41,21 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             GetComponent<Rigidbody2D>().gravityScale = 2;
         }
 
+        var goat = GetComponent<Goat>();
+        if( goat != null )
+        {
+            goat.beingDragged = false;
+            gameObject.layer = LayerMask.NameToLayer("Goat");
+        }
+        else
+        {
+            if( transform.parent == startParent )
+                transform.position = startPos;
+
+            gameObject.layer = 0;
+        }
+
         selectedObject = null;
-        gameObject.layer = 0;
-        if (transform.parent == startParent)
-            transform.position = startPos;
     }
 
     public void ResetPosition()

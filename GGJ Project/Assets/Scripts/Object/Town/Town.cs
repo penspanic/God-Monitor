@@ -152,8 +152,8 @@ public class Town : MonoBehaviour
         }
 
         clearedEventStreak++;
-        if (clearedEventStreak == 4)
-            goatChance = .5f;
+        if (clearedEventStreak >= 0)
+            goatChance = .9f;
         else if (clearedEventStreak >= 4)
             goatChance = .6f;
         else
