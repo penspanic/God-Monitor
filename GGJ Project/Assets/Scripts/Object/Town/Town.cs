@@ -12,7 +12,7 @@ public class Town : MonoBehaviour
 
     DataManager dataMgr;
     SpriteRenderer sprRenderer;
-    int eventClearCount;
+    int eventClearCount = 0;
     int nextLevelUpPoint;
     void Awake()
     {
@@ -20,7 +20,6 @@ public class Town : MonoBehaviour
         dataMgr = GameObject.FindObjectOfType<DataManager>();
         sprRenderer = GetComponent<SpriteRenderer>();
         nextLevelUpPoint = dataMgr.GetTownLevelUpPoint(1);
-        Debug.Log("Next Level : " + nextLevelUpPoint);
         townSprites = Resources.LoadAll<Sprite>("Town");
         sprRenderer.sprite = townSprites[0];
     }
@@ -37,14 +36,13 @@ public class Town : MonoBehaviour
 
     void LevelUp()
     {
-        Debug.Log(name + " : " + eventClearCount);
         level++;
         if (level == 5)
         {
             sprRenderer.sprite = townSprites[4];
             return;
         }
-        nextLevelUpPoint = dataMgr.GetTownLevelUpPoint(level);
+        nextLevelUpPoint = dataMgr.GetTownLevelUpPoint(level - 1);
         sprRenderer.sprite = townSprites[level - 1];
     }
 }

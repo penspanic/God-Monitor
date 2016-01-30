@@ -5,13 +5,17 @@ using System.Collections;
 public class WorldManager : MonoBehaviour
 {
     public WorldBase[] worlds;
-    public Button leftButton;
-    public Button rightButton;
+
+    public Sprite normalButtonSprite;
+    public Sprite leftDownSprite;
+    public Sprite rightDownSprite;
+
+    public SpriteRenderer channelButtonRenderer;
 
     GameManager gameMgr;
     DataManager dataMgr;
     WorldBase currWorld;
-    int currWorldIndex;
+    int currWorldIndex = 0;
 
     void Awake()
     {
@@ -24,7 +28,6 @@ public class WorldManager : MonoBehaviour
             eachWorld.WorldInactivate();
         }
         currWorld.WorldActivate();
-        leftButton.interactable = false;
 
         StartCoroutine(EventCreateProcess());
     }
@@ -66,34 +69,38 @@ public class WorldManager : MonoBehaviour
 
     public void OnLeftButtonDown()
     {
-        if (currWorldIndex == 0)
-            return;
+        channelButtonRenderer.sprite = leftDownSprite;
         currWorld.WorldInactivate();
-        currWorldIndex--;
+        if (currWorldIndex == 0)
+            currWorldIndex = 4;
+        else
+            currWorldIndex--;
         currWorld = worlds[currWorldIndex];
         currWorld.WorldActivate();
 
-        rightButton.interactable = true;
-        if (currWorldIndex == 0)
-        {
-            leftButton.interactable = false;
-        }
     }
 
     public void OnRightButtonDown()
     {
-        if (currWorldIndex == worlds.Length - 1)
-            return;
+        channelButtonRenderer.sprite = rightDownSprite;
         currWorld.WorldInactivate();
-        currWorldIndex++;
+        if (currWorldIndex == 4)
+            currWorldIndex = 0;
+        else
+            currWorldIndex++;
         currWorld = worlds[currWorldIndex];
         currWorld.WorldActivate();
 
-        leftButton.interactable = true;
-        if (currWorldIndex == worlds.Length - 1)
-        {
-            rightButton.interactable = false;
-        }
+    }
+
+    public void OnLeftButtonUp()
+    {
+        channelButtonRenderer.sprite = normalButtonSprite;
+    }
+
+    public void OnRightButtonUp()
+    {
+        channelButtonRenderer.sprite = normalButtonSprite;
     }
 
     public int GetCurrWorldIndex()

@@ -14,11 +14,6 @@ public class World3 : WorldBase
         base.Update();
     }
 
-    protected override EventBase GetNewEvent()
-    {
-        return Instantiate<GameObject>(eventPrefabs[0]).GetComponent<EventBase>();
-    }
-
     public override void WorldActivate()
     {
         base.WorldActivate();
@@ -29,3 +24,10 @@ public class World3 : WorldBase
         base.WorldInactivate();
     }
 }
+
+/*
+ *         "Level 1": 2,
+        "Level 2": 7,
+        "Level 3": 12,
+        "Level 4": 20
+*/

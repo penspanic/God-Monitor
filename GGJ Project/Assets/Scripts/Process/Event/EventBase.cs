@@ -13,6 +13,8 @@ public abstract class EventBase : MonoBehaviour
     TileManager tileMgr;
     Tile currTile;
 
+    static GameObject messagePrefab;
+  
     public abstract int ID
     {
         get;
@@ -24,6 +26,10 @@ public abstract class EventBase : MonoBehaviour
     {
         gameMgr = GameObject.FindObjectOfType<GameManager>();
         tileMgr = GameObject.FindObjectOfType<TileManager>();
+
+        if (messagePrefab == null)
+            messagePrefab = Resources.Load<GameObject>("Prefabs/Message");
+
     }
 
     float elapsedTime = 0f;
@@ -53,6 +59,10 @@ public abstract class EventBase : MonoBehaviour
         eventIndex = index;
         this.world = world;
         this.town = town;
+
+        //GameObject messageObj = Instantiate<GameObject>(messagePrefab);
+        //messageObj.transform.SetParent(this.transform);
+        //messageObj.transform.localPosition = new Vector2(0, -9.8f);
     }
     
     public void TileAttatched(Tile tile)

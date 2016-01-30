@@ -4,7 +4,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public Text approvalRatingText;
+    public Image approvalRatingImage;
     const int approvalRatingLosePoint = 5;
     const int approvalRatingIncreasePoint = 5;
 
@@ -12,28 +12,30 @@ public class GameManager : MonoBehaviour
     public bool isRun = true;
     void Awake()
     {
-        SetApprovalRatingText();
+        SetApprovalRatingImage();
     }
 
     public void EventCleared()
     {
         approvalRating += approvalRatingIncreasePoint;
-        SetApprovalRatingText();
+        if (approvalRating > 100)
+            approvalRating = 100;
+        SetApprovalRatingImage();
     }
 
     public void EventDestroyed()
     {
         approvalRating -= approvalRatingLosePoint;
-        SetApprovalRatingText();
+        SetApprovalRatingImage();
         if (approvalRating < 0)
         {
             GameOver();
         }
     }
 
-    void SetApprovalRatingText()
+    void SetApprovalRatingImage()
     {
-        approvalRatingText.text = approvalRating.ToString() + "/" + "100";
+        approvalRatingImage.fillAmount = (float)approvalRating / (float)100;
     }
 
     void GameOver()

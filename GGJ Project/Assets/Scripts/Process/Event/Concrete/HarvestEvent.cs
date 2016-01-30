@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EventB : EventBase
+public class HarvestEvent : EventBase
 {
 
     public override int ID
     {
         get
         {
-            return 2;
+            return 4;
         }
     }
 

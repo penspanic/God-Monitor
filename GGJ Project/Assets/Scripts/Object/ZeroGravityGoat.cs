@@ -17,19 +17,19 @@ public class ZeroGravityGoat : MonoBehaviour, IDragHandler, IBeginDragHandler, I
         thisRigidBody.AddForce(new Vector2(-1, -1) * initialForce);
     }
 
-    public void OnDrag( PointerEventData eventData )
+    public void OnDrag(PointerEventData eventData)
     {
         //transform.position = Input.mousePosition;
     }
 
-    public void OnBeginDrag( PointerEventData eventData )
+    public void OnBeginDrag(PointerEventData eventData)
     {
         startTouchPos = eventData.position;
         startTouchTime = Time.time;
         thisRigidBody.velocity = Vector2.zero;
     }
 
-    public void OnEndDrag( PointerEventData eventData )
+    public void OnEndDrag(PointerEventData eventData)
     {
         Vector2 deltaPos = eventData.position - startTouchPos;
         float deltaTime = Time.time - startTouchTime;

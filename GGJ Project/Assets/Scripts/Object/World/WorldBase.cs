@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public abstract class WorldBase : MonoBehaviour
 {
 
-    public GameObject[] eventPrefabs;
+    protected static GameObject[] eventPrefabs;
     Town[] towns;
     bool[] isEventCreated;
 
@@ -16,6 +16,9 @@ public abstract class WorldBase : MonoBehaviour
             townList.Add(transform.FindChild(i.ToString()).GetComponent<Town>());
         towns = townList.ToArray();
         isEventCreated = new bool[towns.Length];
+
+        if (eventPrefabs == null)
+            eventPrefabs = Resources.LoadAll<GameObject>("Prefabs/Events");
     }
 
     protected virtual void Update()
@@ -61,17 +64,18 @@ public abstract class WorldBase : MonoBehaviour
         return isEmptyPlaceExist;
     }
 
-    protected abstract EventBase GetNewEvent();
+    EventBase GetNewEvent()
+    {
+        return Instantiate<GameObject>(eventPrefabs[Random.Range(0, eventPrefabs.Length)]).GetComponent<EventBase>();
+    }
 
     public virtual void WorldActivate()
     {
-        Debug.Log(name + " Activate!");
         gameObject.transform.position = new Vector2(0, 1.07f);
     }
 
     public virtual void WorldInactivate()
     {
-        Debug.Log(name + " Inactivate!");
         gameObject.transform.position = Vector2.one * 100;
     }
 

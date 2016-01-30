@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EventC : EventBase
+public class HealEvent : EventBase
 {
+
     public override int ID
     {
         get
         {
-            return 3;
+            return 5;
         }
     }
 
