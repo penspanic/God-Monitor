@@ -28,7 +28,6 @@ public class DragDropSlot : MonoBehaviour, IDropHandler
             if (Tile.CompareID(DragAndDrop.selectedObject.GetComponent<Tile>(), this.GetComponent<EventBase>()))
             {
                 targetEvent.TileAttatched(DragAndDrop.selectedObject.GetComponent<Tile>());
-                tileMgr.TileAttatched(DragAndDrop.selectedObject.GetComponent<Tile>().ID);
                 DragAndDrop.selectedObject.transform.SetParent(transform);
                 DragAndDrop.selectedObject.transform.localPosition = new Vector3(0, 0, -1);
             }

@@ -12,13 +12,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         selectedObject = gameObject;
         startParent = transform.parent;
-        gameObject.layer = 2; //ignore raycasts layer
+        gameObject.layer = 2;
         startPos = transform.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-
         Vector3 worldPos = Input.mousePosition;
         worldPos.z = Camera.main.nearClipPlane;
         worldPos = Camera.main.ScreenToWorldPoint(worldPos);

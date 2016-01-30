@@ -19,6 +19,7 @@ public class Town : MonoBehaviour
     GameManager gameMgr;
     DataManager dataMgr;
     SpriteRenderer sprRenderer;
+    GameObject messageObj;
     int eventClearCount = 0;
     int nextLevelUpPoint;
     int clearedEventStreak;
@@ -27,6 +28,7 @@ public class Town : MonoBehaviour
     AudioSource audioSource;
     static AudioClip successClip;
     static AudioClip failClip;
+    static GameObject message;
 
     void Awake()
     {
@@ -41,12 +43,25 @@ public class Town : MonoBehaviour
             townSprites = Resources.LoadAll<Sprite>("Town");
             successClip = Resources.Load<AudioClip>("Sounds/ritual_success_01");
             failClip = Resources.Load<AudioClip>("Sounds/ritual_fail_01");
+            message = Resources.Load<GameObject>("Prefabs/Message");
         }
         sprRenderer.sprite = townSprites[0];
 
         GoatIcon = transform.GetChild(0).gameObject;
     }
 
+    public bool GetEventNeedSuccess()
+    {
+        if (GetComponentInChildren<EventBase>() != null)
+        {
+            if (GetComponentInChildren<EventBase>().currTile == null)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
     public void EventCleared()
     {
         audioSource.PlayOneShot(successClip);
@@ -70,7 +85,7 @@ public class Town : MonoBehaviour
     public bool GoatActivationCheck()
     {
         float rand = Random.Range(0f, 1f);
-        if( rand < goatChance )
+        if (rand < goatChance)
         {
             GoatIcon.SetActive(true);
             clearedEventStreak = 0;
@@ -81,16 +96,16 @@ public class Town : MonoBehaviour
 
     public void GoatChanceLogic()
     {
-        if( GoatIcon.activeSelf )
+        if (GoatIcon.activeSelf)
         {
             GoatIcon.SetActive(false);
             gameMgr.GoatReceived();
         }
 
         clearedEventStreak++;
-        if(clearedEventStreak == 3)
+        if (clearedEventStreak == 3)
             goatChance = .5f;
-        else if(clearedEventStreak >= 4)
+        else if (clearedEventStreak >= 4)
             goatChance = .6f;
         else
             goatChance = 0f;

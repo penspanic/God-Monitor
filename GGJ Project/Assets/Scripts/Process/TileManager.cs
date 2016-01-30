@@ -1,27 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 public class TileManager : MonoBehaviour
 {
     Tile[] tiles;
-
-    //SpriteRenderer[] tileButtonRenderers;
-
+    public Image[] coolTimeImages;
     static Sprite buttonDownSprite;
     static Sprite buttonUpSprite;
 
     void Awake()
     {
         List<Tile> tileList = new List<Tile>();
-        //List<SpriteRenderer> buttonRendererList = new List<SpriteRenderer>();
         for (int i = 1; i < 6; i++)
         {
             tileList.Add(GameObject.Find("Command" + i.ToString()).GetComponent<Tile>());
-            //buttonRendererList.Add(GameObject.Find("TileButton" + i.ToString()).GetComponent<SpriteRenderer>());
         }
         tiles = tileList.ToArray();
-        //tileButtonRenderers = buttonRendererList.ToArray();
 
         if (buttonDownSprite == null || buttonUpSprite == null)
         {
@@ -34,10 +30,26 @@ public class TileManager : MonoBehaviour
     {
 
     }
-
-    public void TileAttatched(int ID)
+    
+    public void ShowCoolTime(Tile tile)
     {
-        //tileButtonRenderers[ID - 1].sprite = buttonDownSprite;
+        StartCoroutine(CoolTimeProcess(tile));
+    }
+
+    IEnumerator CoolTimeProcess(Tile tile)
+    {
+        Image targetImage = coolTimeImages[tile.ID - 1];
+        targetImage.gameObject.SetActive(true);
+        float elapsedTime = 0f;
+        while(true)
+        {
+            elapsedTime += Time.deltaTime;
+            targetImage.fillAmount = elapsedTime / tile.clearTime;
+            if (elapsedTime > tile.clearTime)
+                break;
+            yield return null;
+        }
+        targetImage.gameObject.SetActive(false);
     }
 
     public void ResetTile(int ID)
@@ -48,7 +60,8 @@ public class TileManager : MonoBehaviour
             if (eachTile.ID == ID)
                 targetTile = eachTile;
         }
+        targetTile.isAttatched = false;
+        targetTile.GetComponent<BoxCollider2D>().enabled = true;
         targetTile.GetComponent<DragAndDrop>().ResetPosition();
-        //tileButtonRenderers[ID - 1].sprite = buttonUpSprite;
     }
 }

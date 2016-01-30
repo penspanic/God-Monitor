@@ -7,11 +7,11 @@ public abstract class EventBase : MonoBehaviour
 {
     public float existTime;
 
-    WorldBase world;
+    World world;
     Town town;
     GameManager gameMgr;
     TileManager tileMgr;
-    Tile currTile;
+    public Tile currTile;
 
     static GameObject messagePrefab;
 
@@ -31,6 +31,7 @@ public abstract class EventBase : MonoBehaviour
         {
             messagePrefab = Resources.Load<GameObject>("Prefabs/Message");
         }
+
     }
 
     float elapsedTime = 0f;
@@ -55,7 +56,7 @@ public abstract class EventBase : MonoBehaviour
         }
     }
 
-    public void SetEvent(int index, WorldBase world, Town town)
+    public void SetEvent(int index, World world, Town town)
     {
         eventIndex = index;
         this.world = world;
@@ -68,7 +69,10 @@ public abstract class EventBase : MonoBehaviour
     
     public void TileAttatched(Tile tile)
     {
+        tileMgr.ShowCoolTime(tile);
         currTile = tile;
+        currTile.GetComponent<BoxCollider2D>().enabled = false;
+        currTile.isAttatched = true;
         isWaiting = false;
         elapsedTime = 0;
     }
@@ -76,7 +80,6 @@ public abstract class EventBase : MonoBehaviour
     void EventCleared()
     {
         world.EventDestroyed(eventIndex);
-        
         town.EventCleared();
         gameMgr.EventCleared();
         tileMgr.ResetTile(ID);

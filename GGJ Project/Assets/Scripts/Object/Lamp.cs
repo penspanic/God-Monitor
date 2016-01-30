@@ -26,7 +26,7 @@ public class Lamp : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-            int eventCount = worldMgr.worlds[i].GetWorldEventCount();
+            int eventCount = worldMgr.worlds[i].GetWorldNeedSuccessCount();
             switch (eventCount)
             {
                 case 0:

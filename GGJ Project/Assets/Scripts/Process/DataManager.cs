@@ -42,7 +42,6 @@ public class DataManager : MonoBehaviour
 
         List<CreateInterval> createIntervalList = new List<CreateInterval>();
         int length = dataFile["Event Create Intervals"].Count;
-        Debug.Log(length);
         for (int i = 0; i < length; i++)
         {
             CreateInterval newInterval = new CreateInterval();

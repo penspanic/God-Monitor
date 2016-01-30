@@ -4,7 +4,7 @@ using System.Collections;
 
 public class WorldManager : MonoBehaviour
 {
-    public WorldBase[] worlds;
+    public World[] worlds;
 
     public Sprite normalButtonSprite;
     public Sprite leftDownSprite;
@@ -14,7 +14,7 @@ public class WorldManager : MonoBehaviour
 
     GameManager gameMgr;
     DataManager dataMgr;
-    WorldBase currWorld;
+    World currWorld;
     int currWorldIndex = 0;
 
     public AudioSource buttonSoundSource;
@@ -27,7 +27,7 @@ public class WorldManager : MonoBehaviour
         dataMgr = GameObject.FindObjectOfType<DataManager>();
         currWorld = worlds[currWorldIndex];
 
-        foreach (WorldBase eachWorld in worlds)
+        foreach (World eachWorld in worlds)
         {
             eachWorld.WorldInactivate();
         }
@@ -44,14 +44,13 @@ public class WorldManager : MonoBehaviour
             yield return new WaitForSeconds(nextWaitTime);
             GetNextEventCreateWorld().CreateEvent();
             CreateInterval interval = dataMgr.GetCreateInterval(GetAllTownLevelSum());
-            Debug.Log(GetAllTownLevelSum());
             nextWaitTime = Random.Range(interval.min, interval.max);
         }
     }
 
-    WorldBase GetNextEventCreateWorld()
+    World GetNextEventCreateWorld()
     {
-        WorldBase world = null;
+        World world = null;
         while (true)
         {
             world = worlds[Random.Range(0, 5)];

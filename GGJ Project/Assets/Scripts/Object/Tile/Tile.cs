@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
 
     public int ID;
     public float clearTime;
-
+    public bool isAttatched = false;
     void Start()
     {
 
