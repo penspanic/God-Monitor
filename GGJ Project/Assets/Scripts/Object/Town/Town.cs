@@ -10,10 +10,19 @@ public class Town : MonoBehaviour
         private set;
     }
 
+    public GameObject GoatIcon
+    {
+        get;
+        private set;
+    }
+
+    GameManager gameMgr;
     DataManager dataMgr;
     SpriteRenderer sprRenderer;
     int eventClearCount = 0;
     int nextLevelUpPoint;
+    int clearedEventStreak;
+    float goatChance;
 
     AudioSource audioSource;
     static AudioClip successClip;
@@ -22,6 +31,7 @@ public class Town : MonoBehaviour
     void Awake()
     {
         level = 1;
+        gameMgr = GameObject.FindObjectOfType<GameManager>();
         dataMgr = GameObject.FindObjectOfType<DataManager>();
         sprRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
@@ -33,11 +43,15 @@ public class Town : MonoBehaviour
             failClip = Resources.Load<AudioClip>("Sounds/ritual_fail_01");
         }
         sprRenderer.sprite = townSprites[0];
+
+        GoatIcon = transform.GetChild(0).gameObject;
     }
 
     public void EventCleared()
     {
         audioSource.PlayOneShot(successClip);
+        GoatChanceLogic();
+
         if (level < 5)
         {
             eventClearCount++;
@@ -49,7 +63,39 @@ public class Town : MonoBehaviour
     public void EventDestroyed()
     {
         audioSource.PlayOneShot(failClip);
+        clearedEventStreak = 0;
+        GoatIcon.SetActive(false);
     }
+
+    public bool GoatActivationCheck()
+    {
+        float rand = Random.Range(0f, 1f);
+        if( rand < goatChance )
+        {
+            GoatIcon.SetActive(true);
+            clearedEventStreak = 0;
+        }
+
+        return GoatIcon.activeSelf;
+    }
+
+    public void GoatChanceLogic()
+    {
+        if( GoatIcon.activeSelf )
+        {
+            GoatIcon.SetActive(false);
+            gameMgr.GoatReceived();
+        }
+
+        clearedEventStreak++;
+        if(clearedEventStreak == 3)
+            goatChance = .5f;
+        else if(clearedEventStreak >= 4)
+            goatChance = .6f;
+        else
+            goatChance = 0f;
+    }
+
     void LevelUp()
     {
         level++;

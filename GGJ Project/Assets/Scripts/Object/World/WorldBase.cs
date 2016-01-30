@@ -34,6 +34,7 @@ public abstract class WorldBase : MonoBehaviour
         newEvent.transform.SetParent(towns[createIndex].transform);
         newEvent.transform.localPosition = Vector2.zero;
         isEventCreated[createIndex] = true;
+        towns[createIndex].GoatActivationCheck();
 
         newEvent.SetEvent(createIndex, this, towns[createIndex]);
     }

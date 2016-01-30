@@ -31,7 +31,6 @@ public abstract class EventBase : MonoBehaviour
         {
             messagePrefab = Resources.Load<GameObject>("Prefabs/Message");
         }
-
     }
 
     float elapsedTime = 0f;
@@ -77,6 +76,7 @@ public abstract class EventBase : MonoBehaviour
     void EventCleared()
     {
         world.EventDestroyed(eventIndex);
+        
         town.EventCleared();
         gameMgr.EventCleared();
         tileMgr.ResetTile(ID);

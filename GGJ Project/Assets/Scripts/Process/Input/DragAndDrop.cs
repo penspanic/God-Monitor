@@ -12,7 +12,7 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         selectedObject = gameObject;
         startParent = transform.parent;
-        gameObject.layer = 2;
+        gameObject.layer = 2; //ignore raycasts layer
         startPos = transform.position;
     }
 
