@@ -17,6 +17,10 @@ public class WorldManager : MonoBehaviour
     WorldBase currWorld;
     int currWorldIndex = 0;
 
+    public AudioSource buttonSoundSource;
+
+    public AudioClip buttonClickClip;
+    public AudioClip buttonReleaseClip;
     void Awake()
     {
         gameMgr = GameObject.FindObjectOfType<GameManager>();
@@ -69,6 +73,7 @@ public class WorldManager : MonoBehaviour
 
     public void OnLeftButtonDown()
     {
+        buttonSoundSource.PlayOneShot(buttonClickClip);
         channelButtonRenderer.sprite = leftDownSprite;
         currWorld.WorldInactivate();
         if (currWorldIndex == 0)
@@ -82,6 +87,7 @@ public class WorldManager : MonoBehaviour
 
     public void OnRightButtonDown()
     {
+        buttonSoundSource.PlayOneShot(buttonClickClip);
         channelButtonRenderer.sprite = rightDownSprite;
         currWorld.WorldInactivate();
         if (currWorldIndex == 4)
@@ -95,11 +101,13 @@ public class WorldManager : MonoBehaviour
 
     public void OnLeftButtonUp()
     {
+        buttonSoundSource.PlayOneShot(buttonReleaseClip);
         channelButtonRenderer.sprite = normalButtonSprite;
     }
 
     public void OnRightButtonUp()
     {
+        buttonSoundSource.PlayOneShot(buttonReleaseClip);
         channelButtonRenderer.sprite = normalButtonSprite;
     }
 

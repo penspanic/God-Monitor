@@ -6,7 +6,7 @@ public class TileManager : MonoBehaviour
 {
     Tile[] tiles;
 
-    SpriteRenderer[] tileButtonRenderers;
+    //SpriteRenderer[] tileButtonRenderers;
 
     static Sprite buttonDownSprite;
     static Sprite buttonUpSprite;
@@ -14,14 +14,14 @@ public class TileManager : MonoBehaviour
     void Awake()
     {
         List<Tile> tileList = new List<Tile>();
-        List<SpriteRenderer> buttonRendererList = new List<SpriteRenderer>();
+        //List<SpriteRenderer> buttonRendererList = new List<SpriteRenderer>();
         for (int i = 1; i < 6; i++)
         {
             tileList.Add(GameObject.Find("Command" + i.ToString()).GetComponent<Tile>());
-            buttonRendererList.Add(GameObject.Find("TileButton" + i.ToString()).GetComponent<SpriteRenderer>());
+            //buttonRendererList.Add(GameObject.Find("TileButton" + i.ToString()).GetComponent<SpriteRenderer>());
         }
         tiles = tileList.ToArray();
-        tileButtonRenderers = buttonRendererList.ToArray();
+        //tileButtonRenderers = buttonRendererList.ToArray();
 
         if (buttonDownSprite == null || buttonUpSprite == null)
         {
@@ -37,7 +37,7 @@ public class TileManager : MonoBehaviour
 
     public void TileAttatched(int ID)
     {
-        tileButtonRenderers[ID - 1].sprite = buttonDownSprite;
+        //tileButtonRenderers[ID - 1].sprite = buttonDownSprite;
     }
 
     public void ResetTile(int ID)
@@ -49,6 +49,6 @@ public class TileManager : MonoBehaviour
                 targetTile = eachTile;
         }
         targetTile.GetComponent<DragAndDrop>().ResetPosition();
-        tileButtonRenderers[ID - 1].sprite = buttonUpSprite;
+        //tileButtonRenderers[ID - 1].sprite = buttonUpSprite;
     }
 }

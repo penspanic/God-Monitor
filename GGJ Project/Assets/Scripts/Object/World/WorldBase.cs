@@ -71,7 +71,7 @@ public abstract class WorldBase : MonoBehaviour
 
     public virtual void WorldActivate()
     {
-        gameObject.transform.position = new Vector2(0, 1.07f);
+        gameObject.transform.position = new Vector2(0, 0.6f);
     }
 
     public virtual void WorldInactivate()

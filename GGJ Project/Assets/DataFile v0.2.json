@@ -1,9 +1,9 @@
 ﻿{
     "Town Level Upgrade": {
         "Level 1": 2,
-        "Level 2": 4,
-        "Level 3": 6,
-        "Level 4": 8
+        "Level 2": 7,
+        "Level 3": 12,
+        "Level 4": 20
     },
     "Event Create Intervals": [
         {

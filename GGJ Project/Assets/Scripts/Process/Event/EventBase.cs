@@ -14,7 +14,7 @@ public abstract class EventBase : MonoBehaviour
     Tile currTile;
 
     static GameObject messagePrefab;
-  
+
     public abstract int ID
     {
         get;
@@ -28,7 +28,9 @@ public abstract class EventBase : MonoBehaviour
         tileMgr = GameObject.FindObjectOfType<TileManager>();
 
         if (messagePrefab == null)
+        {
             messagePrefab = Resources.Load<GameObject>("Prefabs/Message");
+        }
 
     }
 
@@ -62,7 +64,7 @@ public abstract class EventBase : MonoBehaviour
 
         //GameObject messageObj = Instantiate<GameObject>(messagePrefab);
         //messageObj.transform.SetParent(this.transform);
-        //messageObj.transform.localPosition = new Vector2(0, -9.8f);
+        //messageObj.transform.localPosition = new Vector2(0, -1);
     }
     
     public void TileAttatched(Tile tile)
@@ -84,6 +86,7 @@ public abstract class EventBase : MonoBehaviour
     void DestroyEvent()
     {
         world.EventDestroyed(eventIndex);
+        town.EventDestroyed();
         gameMgr.EventDestroyed();
         Destroy(this.gameObject);
     }
