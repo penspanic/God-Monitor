@@ -10,7 +10,7 @@ public class Town : MonoBehaviour
         private set;
     }
 
-    public GameObject GoatIcon
+    public GameObject Smoke
     {
         get;
         private set;
@@ -51,8 +51,8 @@ public class Town : MonoBehaviour
         messageObj.transform.SetParent(this.transform);
         messageObj.transform.localPosition = new Vector2(0, 0.5f);
         messageObj.SetActive(false);
-        GoatIcon = transform.GetChild(0).gameObject;
-        GoatIcon.transform.localPosition = new Vector2(0.4f, 0.7f);
+        Smoke = transform.GetChild(0).gameObject;
+        Smoke.transform.localPosition = new Vector2(0, -0.3f);
     }
 
     public bool GetEventNeedSuccess()
@@ -73,7 +73,7 @@ public class Town : MonoBehaviour
         transform.localScale = Vector3.one;
         messageObj.SetActive(true);
         StartCoroutine(MessageScaleChange(currEvent));
-        if(GoatIcon.activeSelf)
+        if (Smoke.activeSelf)
         {
             currEvent.transform.localPosition = new Vector2(-0.4f, 0.7f);
         }
@@ -92,12 +92,16 @@ public class Town : MonoBehaviour
 
         yield return new WaitForSeconds(existTime / 2);
         existTime /= 2;
-        while(true)
+
+        while (true)
         {
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= existTime)
                 break;
-            transform.localScale = EasingUtil.EaseVector2(EasingUtil.easeInCirc, startScale, Vector2.zero, elapsedTime / existTime);
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                messageObj.transform.localScale = new Vector2(1 + Mathf.Sin(elapsedTime * 3) / 7, 1 + Mathf.Sin(elapsedTime * 3) / 7);
+            }
 
             yield return null;
         }
@@ -105,6 +109,7 @@ public class Town : MonoBehaviour
 
     public void EventCleared()
     {
+        gameMgr.follower += dataMgr.eventSuccessFollower[level - 1];
         messageObj.SetActive(false);
         audioSource.PlayOneShot(successClip);
         GoatChanceLogic();
@@ -119,10 +124,11 @@ public class Town : MonoBehaviour
 
     public void EventDestroyed()
     {
+        gameMgr.follower -= dataMgr.eventFailFollower[level - 1];
         messageObj.SetActive(false);
         audioSource.PlayOneShot(failClip);
         clearedEventStreak = 0;
-        GoatIcon.SetActive(false);
+        Smoke.SetActive(false);
     }
 
     public bool GoatActivationCheck()
@@ -130,19 +136,18 @@ public class Town : MonoBehaviour
         float rand = Random.Range(0f, 1f);
         if (rand < goatChance)
         {
-            GoatIcon.SetActive(true);
+            Smoke.SetActive(true);
             clearedEventStreak = 0;
         }
 
-        GoatIcon.SetActive(true);
-        return GoatIcon.activeSelf;
+        return Smoke.activeSelf;
     }
 
     public void GoatChanceLogic()
     {
-        if (GoatIcon.activeSelf)
+        if (Smoke.activeSelf)
         {
-            GoatIcon.SetActive(false);
+            Smoke.SetActive(false);
             gameMgr.GoatReceived();
         }
 

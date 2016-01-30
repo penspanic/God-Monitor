@@ -21,6 +21,9 @@ public class WorldManager : MonoBehaviour
 
     public AudioClip buttonClickClip;
     public AudioClip buttonReleaseClip;
+
+    public GameObject noise;
+    public 
     void Awake()
     {
         gameMgr = GameObject.FindObjectOfType<GameManager>();
@@ -72,6 +75,7 @@ public class WorldManager : MonoBehaviour
 
     public void OnLeftButtonDown()
     {
+        ShowNoise();
         buttonSoundSource.PlayOneShot(buttonClickClip);
         channelButtonRenderer.sprite = leftDownSprite;
         currWorld.WorldInactivate();
@@ -86,6 +90,7 @@ public class WorldManager : MonoBehaviour
 
     public void OnRightButtonDown()
     {
+        ShowNoise();
         buttonSoundSource.PlayOneShot(buttonClickClip);
         channelButtonRenderer.sprite = rightDownSprite;
         currWorld.WorldInactivate();
@@ -108,6 +113,18 @@ public class WorldManager : MonoBehaviour
     {
         buttonSoundSource.PlayOneShot(buttonReleaseClip);
         channelButtonRenderer.sprite = normalButtonSprite;
+    }
+
+    void ShowNoise()
+    {
+        StartCoroutine(NoiseProcess());
+    }
+
+    IEnumerator NoiseProcess()
+    {
+        noise.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        noise.SetActive(false);
     }
 
     public int GetCurrWorldIndex()

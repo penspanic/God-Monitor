@@ -17,6 +17,11 @@ public class Tile : MonoBehaviour
 
     }
 
+    public virtual void UseTile(EventBase targetEvent)
+    {
+
+    }
+
     public static bool CompareID(Tile tile, EventBase targetEvent)
     {
         return tile.ID == targetEvent.ID;

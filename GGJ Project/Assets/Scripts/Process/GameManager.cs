@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
     int failedEventCount = 0;
     int goatGetCount = 0;
 
-    public Text gameOverClearedEventText;
-    public Text gameOverFailedEventText;
+    public int follower = 0;
+
+    public Text gameOverTimeText;
+    public Text gameOverFollowerText;
     public Text gameOverGoatGetText;
 
     public AudioSource teleportSource;
@@ -29,10 +31,13 @@ public class GameManager : MonoBehaviour
 
     public GameObject teleport;
     public GameObject goatPrefab;
+
+    System.DateTime startTime;
     void Awake()
     {
         worldMgr = GameObject.FindObjectOfType<WorldManager>();
         SetApprovalRatingImage();
+        startTime = System.DateTime.Now;
     }
 
     void Start()
@@ -64,6 +69,7 @@ public class GameManager : MonoBehaviour
 
     public void GoatReceived()
     {
+        follower += 5000;
         goatGetCount++;
         GameObject goat = Instantiate<GameObject>(goatPrefab);
         goat.transform.position = new Vector2(5.09f, 2.56f);
@@ -86,8 +92,11 @@ public class GameManager : MonoBehaviour
     {
         isRun = false;
         gameOver.SetActive(true);
-        gameOverClearedEventText.text = clearedEventCount.ToString();
-        gameOverFailedEventText.text = failedEventCount.ToString();
+
+        System.TimeSpan playTime = System.DateTime.Now - startTime;
+        string s = playTime.Minutes.ToString() + " : " + playTime.Seconds.ToString();
+        gameOverTimeText.text = s;
+        gameOverFollowerText.text = follower.ToString();
         gameOverGoatGetText.text = goatGetCount.ToString();
     }
 

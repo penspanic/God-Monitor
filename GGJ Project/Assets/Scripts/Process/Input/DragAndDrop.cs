@@ -48,5 +48,6 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     {
         transform.SetParent(startParent);
         transform.position = startPos;
+        transform.localScale = Vector3.one;
     }
 }

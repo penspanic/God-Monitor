@@ -24,6 +24,8 @@ public class DataManager : MonoBehaviour
 
     CreateInterval[] createIntervals;
     int[] townLevelUpgradeValues = new int[4];
+    public int[] eventSuccessFollower = new int[5];
+    public int[] eventFailFollower = new int[5];
     void Awake()
     {
         LoadFile();
@@ -52,6 +54,16 @@ public class DataManager : MonoBehaviour
             createIntervalList.Add(newInterval);
         }
         createIntervals = createIntervalList.ToArray();
+
+        List<int> successFollowerList = new List<int>();
+        List<int> failFollowerList = new List<int>();
+        for(int i = 0;i<5;i++)
+        {
+            successFollowerList.Add(int.Parse(dataFile["Event Success Follower"][(i + 1).ToString()].ToString()));
+            failFollowerList.Add(int.Parse(dataFile["Event Fail Follower"][(i + 1).ToString()].ToString()));
+        }
+        eventSuccessFollower = successFollowerList.ToArray();
+        eventFailFollower = failFollowerList.ToArray();
     }
 
     public CreateInterval GetCreateInterval(int levelSum)
@@ -70,4 +82,5 @@ public class DataManager : MonoBehaviour
     {
         return townLevelUpgradeValues[level];
     }
+   
 }

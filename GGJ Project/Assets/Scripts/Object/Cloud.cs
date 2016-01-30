@@ -3,8 +3,8 @@ using System.Collections;
 
 public class Cloud : MonoBehaviour
 {
-    public Vector2 startPos;
-    public Vector2 endPos;
+    public Vector3 startPos;
+    public Vector3 endPos;
 
     public float moveTime;
 
@@ -20,9 +20,9 @@ public class Cloud : MonoBehaviour
     {
         elapsedTime += Time.deltaTime;
         if (isFirst)
-            transform.position = Vector2.Lerp(originalPos, endPos, elapsedTime / moveTime);
+            transform.position = Vector3.Lerp(originalPos, endPos, elapsedTime / moveTime);
         else
-            transform.position = Vector2.Lerp(startPos, endPos, elapsedTime / moveTime);
+            transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / moveTime);
         if (elapsedTime > moveTime)
         {
             isFirst = false;
