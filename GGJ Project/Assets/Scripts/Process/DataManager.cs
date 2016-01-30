@@ -64,6 +64,11 @@ public class DataManager : MonoBehaviour
                 return createIntervals[i];
             }
         }
-        throw new System.ArgumentException();
+        throw new System.ArgumentException("Level Sum : " + levelSum.ToString());
+    }
+
+    public int GetTownLevelUpPoint(int level)
+    {
+        return townLevelUpgradeValues[level];
     }
 }

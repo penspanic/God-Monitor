@@ -8,12 +8,14 @@ public class WorldManager : MonoBehaviour
     public Button leftButton;
     public Button rightButton;
 
+    GameManager gameMgr;
     DataManager dataMgr;
     WorldBase currWorld;
     int currWorldIndex;
 
     void Awake()
     {
+        gameMgr = GameObject.FindObjectOfType<GameManager>();
         dataMgr = GameObject.FindObjectOfType<DataManager>();
         currWorld = worlds[currWorldIndex];
 
@@ -30,11 +32,12 @@ public class WorldManager : MonoBehaviour
     IEnumerator EventCreateProcess()
     {
         float nextWaitTime = 1;
-        while (true)
+        while (gameMgr.isRun)
         {
             yield return new WaitForSeconds(nextWaitTime);
             GetNextEventCreateWorld().CreateEvent();
             CreateInterval interval = dataMgr.GetCreateInterval(GetAllTownLevelSum());
+            Debug.Log(GetAllTownLevelSum());
             nextWaitTime = Random.Range(interval.min, interval.max);
         }
     }
@@ -91,5 +94,10 @@ public class WorldManager : MonoBehaviour
         {
             rightButton.interactable = false;
         }
+    }
+
+    public int GetCurrWorldIndex()
+    {
+        return currWorldIndex;
     }
 }

@@ -1,9 +1,9 @@
 ﻿{
     "Town Level Upgrade": {
         "Level 1": 5,
-        "Level 2": 5,
-        "Level 3": 5,
-        "Level 4": 5
+        "Level 2": 10,
+        "Level 3": 15,
+        "Level 4": 20
     },
     "Event Create Intervals": [
         {
@@ -17,6 +17,12 @@
             "End Level": 22,
             "Min": 1.5,
             "Max": 2.5
+        },
+        {
+            "Start Level": 23,
+            "End Level": 40,
+            "Min": 1.2,
+            "Max": 2.2
         }
     ]
 }

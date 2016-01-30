@@ -6,9 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public Text approvalRatingText;
     const int approvalRatingLosePoint = 5;
-    const int approvalRatingIncreasePoint = 100;
+    const int approvalRatingIncreasePoint = 5;
 
     int approvalRating = 100;
+    public bool isRun = true;
     void Awake()
     {
         SetApprovalRatingText();
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
-
+        isRun = false;
     }
 
     void GameClear()

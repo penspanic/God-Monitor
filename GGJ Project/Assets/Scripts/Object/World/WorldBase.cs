@@ -89,4 +89,15 @@ public abstract class WorldBase : MonoBehaviour
         }
         return sum;
     }
+
+    public int GetWorldEventCount()
+    {
+        int count = 0;
+        for(int i =0;i<towns.Length;i++)
+        {
+            if (isEventCreated[i])
+                count++;
+        }
+        return count;
+    }
 }
