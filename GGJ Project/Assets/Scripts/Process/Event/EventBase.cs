@@ -61,7 +61,7 @@ public abstract class EventBase : MonoBehaviour
         eventIndex = index;
         this.world = world;
         this.town = town;
-
+        town.ShowMessage(this);
         //GameObject messageObj = Instantiate<GameObject>(messagePrefab);
         //messageObj.transform.SetParent(this.transform);
         //messageObj.transform.localPosition = new Vector2(0, -1);
@@ -75,6 +75,14 @@ public abstract class EventBase : MonoBehaviour
         currTile.isAttatched = true;
         isWaiting = false;
         elapsedTime = 0;
+    }
+
+    public void GoatUse()
+    {
+        world.EventDestroyed(eventIndex);
+        town.EventCleared();
+        gameMgr.EventCleared();
+        Destroy(this.gameObject);
     }
 
     void EventCleared()

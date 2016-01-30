@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 public class Goat : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Goat : MonoBehaviour
         StartCoroutine(GoatProcess());
 
         if (goatSounds == null)
-            goatSounds = Resources.LoadAll<AudioClip>("Sounds/Goat");
+            goatSounds = Resources.LoadAll<AudioClip>("Sounds/Goat/voice");
     }
 
     bool moveEnd = true;

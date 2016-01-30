@@ -5,6 +5,17 @@ using System.Collections;
 
 public static class EasingUtil
 {
+    public delegate float EasingMethod(float start, float end, float value);
+
+    public static Vector2 EaseVector2(EasingMethod method, Vector2 start, Vector2 end, float value)
+    {
+        Vector2 returnVec;
+        returnVec.x = method(start.x, end.x, value);
+        returnVec.y = method(start.y, end.y, value);
+
+        return returnVec;
+    }
+
     public static float linear(float start, float end, float value)
     {
         return Mathf.Lerp(start, end, value);

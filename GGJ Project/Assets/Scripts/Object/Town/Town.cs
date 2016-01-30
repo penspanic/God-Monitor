@@ -47,7 +47,12 @@ public class Town : MonoBehaviour
         }
         sprRenderer.sprite = townSprites[0];
 
+        messageObj = Instantiate<GameObject>(message);
+        messageObj.transform.SetParent(this.transform);
+        messageObj.transform.localPosition = new Vector2(0, 0.5f);
+        messageObj.SetActive(false);
         GoatIcon = transform.GetChild(0).gameObject;
+        GoatIcon.transform.localPosition = new Vector2(0.4f, 0.7f);
     }
 
     public bool GetEventNeedSuccess()
@@ -62,8 +67,45 @@ public class Town : MonoBehaviour
         else
             return false;
     }
+
+    public void ShowMessage(EventBase currEvent)
+    {
+        transform.localScale = Vector3.one;
+        messageObj.SetActive(true);
+        StartCoroutine(MessageScaleChange(currEvent));
+        if(GoatIcon.activeSelf)
+        {
+            currEvent.transform.localPosition = new Vector2(-0.4f, 0.7f);
+        }
+        else
+        {
+            currEvent.transform.localPosition = new Vector2(0, 0.7f);
+        }
+    }
+
+    IEnumerator MessageScaleChange(EventBase currEvent)
+    {
+        float existTime = currEvent.existTime;
+
+        float elapsedTime = 0f;
+        Vector2 startScale = transform.localScale;
+
+        yield return new WaitForSeconds(existTime / 2);
+        existTime /= 2;
+        while(true)
+        {
+            elapsedTime += Time.deltaTime;
+            if (elapsedTime >= existTime)
+                break;
+            transform.localScale = EasingUtil.EaseVector2(EasingUtil.easeInCirc, startScale, Vector2.zero, elapsedTime / existTime);
+
+            yield return null;
+        }
+    }
+
     public void EventCleared()
     {
+        messageObj.SetActive(false);
         audioSource.PlayOneShot(successClip);
         GoatChanceLogic();
 
@@ -77,6 +119,7 @@ public class Town : MonoBehaviour
 
     public void EventDestroyed()
     {
+        messageObj.SetActive(false);
         audioSource.PlayOneShot(failClip);
         clearedEventStreak = 0;
         GoatIcon.SetActive(false);
@@ -91,6 +134,7 @@ public class Town : MonoBehaviour
             clearedEventStreak = 0;
         }
 
+        GoatIcon.SetActive(true);
         return GoatIcon.activeSelf;
     }
 
@@ -103,7 +147,7 @@ public class Town : MonoBehaviour
         }
 
         clearedEventStreak++;
-        if (clearedEventStreak == 3)
+        if (clearedEventStreak == 4)
             goatChance = .5f;
         else if (clearedEventStreak >= 4)
             goatChance = .6f;

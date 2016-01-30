@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     const int approvalRatingLosePoint = 50;
     const int approvalRatingIncreasePoint = 5;
 
+    WorldManager worldMgr;
     int approvalRating = 100;
     public bool isRun = true;
 
@@ -22,8 +23,15 @@ public class GameManager : MonoBehaviour
     public Text gameOverFailedEventText;
     public Text gameOverGoatGetText;
 
+    public AudioSource teleportSource;
+    public AudioClip teleportSound;
+    public AudioClip dropSound;
+
+    public GameObject teleport;
+    public GameObject goatPrefab;
     void Awake()
     {
+        worldMgr = GameObject.FindObjectOfType<WorldManager>();
         SetApprovalRatingImage();
     }
 
@@ -34,6 +42,9 @@ public class GameManager : MonoBehaviour
     public void EventCleared()
     {
         clearedEventCount++;
+        int levelSum = worldMgr.GetAllTownLevelSum();
+        if (levelSum >= 75)
+            GameClear();
         approvalRating += approvalRatingIncreasePoint;
         if (approvalRating > 100)
             approvalRating = 100;
@@ -53,8 +64,12 @@ public class GameManager : MonoBehaviour
 
     public void GoatReceived()
     {
-        Debug.Break();
         goatGetCount++;
+        GameObject goat = Instantiate<GameObject>(goatPrefab);
+        goat.transform.position = new Vector2(5.09f, 2.56f);
+        teleport.SetActive(true);
+        teleport.GetComponent<Animator>().Play("Teleport_Appear");
+        teleportSource.PlayOneShot(teleportSound);
     }
 
     public void ReplayGame()
@@ -78,6 +93,6 @@ public class GameManager : MonoBehaviour
 
     void GameClear()
     {
-
+        gameClear.SetActive(true);
     }
 }

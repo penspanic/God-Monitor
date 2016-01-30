@@ -10,6 +10,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().enabled = false;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+        }
+
         selectedObject = gameObject;
         startParent = transform.parent;
         gameObject.layer = 2;
@@ -26,6 +32,12 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (GetComponent<Animator>() != null)
+        {
+            GetComponent<Animator>().enabled = true;
+            GetComponent<Rigidbody2D>().gravityScale = 2;
+        }
+
         selectedObject = null;
         gameObject.layer = 0;
         if (transform.parent == startParent)

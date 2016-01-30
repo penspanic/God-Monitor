@@ -25,7 +25,13 @@ public class DragDropSlot : MonoBehaviour, IDropHandler
     {
         if (GetItem() == null)
         {
-            if (Tile.CompareID(DragAndDrop.selectedObject.GetComponent<Tile>(), this.GetComponent<EventBase>()))
+            if(DragAndDrop.selectedObject.GetComponent<Goat>()!= null)
+            {
+                targetEvent.GoatUse();
+                DragAndDrop.selectedObject.transform.SetParent(transform);
+                DragAndDrop.selectedObject.transform.localPosition = new Vector3(0, 0, -1);
+            }
+            else if (Tile.CompareID(DragAndDrop.selectedObject.GetComponent<Tile>(), this.GetComponent<EventBase>()))
             {
                 targetEvent.TileAttatched(DragAndDrop.selectedObject.GetComponent<Tile>());
                 DragAndDrop.selectedObject.transform.SetParent(transform);
