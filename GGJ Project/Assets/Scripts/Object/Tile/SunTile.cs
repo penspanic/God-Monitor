@@ -21,7 +21,7 @@ public class SunTile : Tile
         while(true)
         {
             elapsedTime += Time.deltaTime;
-            lightObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.PingPong(elapsedTime, 1));
+            lightObj.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, Mathf.PingPong(elapsedTime, 1.25f) / 1.25f);
             if (elapsedTime >= 5)
                 break;
             yield return null;

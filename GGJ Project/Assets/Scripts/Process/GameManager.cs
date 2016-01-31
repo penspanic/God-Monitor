@@ -4,6 +4,8 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
+    public System.Action<int> onScoreChanged;
+
     public Image approvalRatingImage;
     public GameObject gameOver;
     public GameObject gameClear;
@@ -15,7 +17,17 @@ public class GameManager : MonoBehaviour
     int approvalRating = 100;
     public bool isRun = true;
 
-    int clearedEventCount = 0;
+    public int clearedEventCount = 0;
+    int ClearedEventCount
+    {
+        set {
+            clearedEventCount = value;
+            if(onScoreChanged != null)
+                onScoreChanged(clearedEventCount);
+        }
+        get { return clearedEventCount; }
+    }
+
     int failedEventCount = 0;
     int goatGetCount = 0;
 
@@ -46,7 +58,7 @@ public class GameManager : MonoBehaviour
     }
     public void EventCleared()
     {
-        clearedEventCount++;
+        ClearedEventCount++;
         int levelSum = worldMgr.GetAllTownLevelSum();
         if (levelSum >= 75)
             GameClear();
@@ -83,6 +95,13 @@ public class GameManager : MonoBehaviour
         Application.LoadLevel(Application.loadedLevel);
     }
 
+    public string GetFormattedTime()
+    {
+        System.TimeSpan playTime = System.DateTime.Now - startTime;
+        string s = playTime.Minutes.ToString() + " : " + playTime.Seconds.ToString();
+        return s;
+    }
+
     void SetApprovalRatingImage()
     {
         approvalRatingImage.fillAmount = (float)approvalRating / (float)100;
@@ -93,8 +112,7 @@ public class GameManager : MonoBehaviour
         isRun = false;
         gameOver.SetActive(true);
 
-        System.TimeSpan playTime = System.DateTime.Now - startTime;
-        string s = playTime.Minutes.ToString() + " : " + playTime.Seconds.ToString();
+        string s = GetFormattedTime();
         gameOverTimeText.text = s;
         gameOverFollowerText.text = follower.ToString();
         gameOverGoatGetText.text = goatGetCount.ToString();
