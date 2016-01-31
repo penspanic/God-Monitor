@@ -15,7 +15,7 @@ public class ThunderTile : Tile
     {
         GameObject thunderObj = Instantiate(thunder);
         thunderObj.transform.SetParent(targetEvent.town.transform);
-        thunderObj.transform.localPosition = new Vector2(0, 2.5f);
+        thunderObj.transform.localPosition = new Vector2(0, 2.25f);
 
         yield return new WaitForSeconds(5f);
         Destroy(thunderObj);

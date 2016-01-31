@@ -19,17 +19,20 @@ public class Town : MonoBehaviour
     GameManager gameMgr;
     DataManager dataMgr;
     SpriteRenderer sprRenderer;
-    GameObject messageObj;
     int eventClearCount = 0;
     int nextLevelUpPoint;
     int clearedEventStreak;
     float goatChance;
+
+
 
     AudioSource audioSource;
     static AudioClip successClip;
     static AudioClip failClip;
     static GameObject message;
 
+
+    GameObject levelUpParticle;
     void Awake()
     {
         level = 1;
@@ -38,6 +41,7 @@ public class Town : MonoBehaviour
         sprRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         nextLevelUpPoint = dataMgr.GetTownLevelUpPoint(1);
+        levelUpParticle = Resources.Load<GameObject>("Prefabs/ParticleSystems/TownLevelUpParticles");
         if (townSprites == null)
         {
             townSprites = Resources.LoadAll<Sprite>("Town");
@@ -47,10 +51,6 @@ public class Town : MonoBehaviour
         }
         sprRenderer.sprite = townSprites[0];
 
-        messageObj = Instantiate<GameObject>(message);
-        messageObj.transform.SetParent(this.transform);
-        messageObj.transform.localPosition = new Vector2(0, 0.5f);
-        messageObj.SetActive(false);
         Smoke = transform.GetChild(0).gameObject;
         Smoke.transform.localPosition = new Vector2(0, -0.3f);
     }
@@ -71,7 +71,6 @@ public class Town : MonoBehaviour
     public void ShowMessage(EventBase currEvent)
     {
         transform.localScale = Vector3.one;
-        messageObj.SetActive(true);
         StartCoroutine(MessageScaleChange(currEvent));
         if (Smoke.activeSelf)
         {
@@ -86,9 +85,7 @@ public class Town : MonoBehaviour
     IEnumerator MessageScaleChange(EventBase currEvent)
     {
         float existTime = currEvent.existTime;
-
         float elapsedTime = 0f;
-        Vector2 startScale = transform.localScale;
 
         yield return new WaitForSeconds(existTime / 2);
         existTime /= 2;
@@ -98,10 +95,11 @@ public class Town : MonoBehaviour
             elapsedTime += Time.deltaTime;
             if (elapsedTime >= existTime)
                 break;
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                messageObj.transform.localScale = new Vector2(1 + Mathf.Sin(elapsedTime * 3) / 7, 1 + Mathf.Sin(elapsedTime * 3) / 7);
-            }
+            if (!currEvent.isWaiting)
+                break;
+            if (currEvent == null)
+                break;
+            currEvent.transform.localScale = new Vector2(1.5f + Mathf.Sin(elapsedTime * 3) / 7, 1.5f + Mathf.Sin(elapsedTime * 3) / 7);
 
             yield return null;
         }
@@ -109,8 +107,9 @@ public class Town : MonoBehaviour
 
     public void EventCleared()
     {
-        gameMgr.follower += dataMgr.eventSuccessFollower[level - 1];
-        messageObj.SetActive(false);
+        if (!gameMgr.isRun)
+            return;
+        gameMgr.Follower += dataMgr.eventSuccessFollower[level - 1];
         audioSource.PlayOneShot(successClip);
         GoatChanceLogic();
 
@@ -124,8 +123,9 @@ public class Town : MonoBehaviour
 
     public void EventDestroyed()
     {
-        gameMgr.follower -= dataMgr.eventFailFollower[level - 1];
-        messageObj.SetActive(false);
+        if (!gameMgr.isRun)
+            return;
+        gameMgr.Follower -= dataMgr.eventFailFollower[level - 1];
         audioSource.PlayOneShot(failClip);
         clearedEventStreak = 0;
         Smoke.SetActive(false);
@@ -148,12 +148,13 @@ public class Town : MonoBehaviour
         if (Smoke.activeSelf)
         {
             Smoke.SetActive(false);
+
             gameMgr.GoatReceived();
         }
 
         clearedEventStreak++;
-        if (clearedEventStreak >= 0)
-            goatChance = .9f;
+        if (clearedEventStreak >= 3)
+            goatChance = .5f;
         else if (clearedEventStreak >= 4)
             goatChance = .6f;
         else
@@ -168,7 +169,20 @@ public class Town : MonoBehaviour
             sprRenderer.sprite = townSprites[4];
             return;
         }
+        particleObj = Instantiate(levelUpParticle);
+        particleObj.transform.SetParent(this.transform);
+        particleObj.transform.position = this.transform.position;
+        StartCoroutine(ParticleDestroy());
         nextLevelUpPoint = dataMgr.GetTownLevelUpPoint(level - 1);
         sprRenderer.sprite = townSprites[level - 1];
+        transform.Translate(0, 0.1f, 0);
+    }
+
+    GameObject particleObj;
+
+    IEnumerator ParticleDestroy()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(particleObj);
     }
 }

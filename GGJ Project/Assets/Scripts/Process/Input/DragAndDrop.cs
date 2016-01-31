@@ -10,6 +10,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         if (GetComponent<Animator>() != null)
         {
             GetComponent<Animator>().enabled = false;
@@ -24,6 +26,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         Vector3 worldPos = Input.mousePosition;
         worldPos.z = Camera.main.nearClipPlane;
         worldPos = Camera.main.ScreenToWorldPoint(worldPos);
@@ -35,6 +39,8 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         if (GetComponent<Animator>() != null)
         {
             GetComponent<Animator>().enabled = true;

@@ -2,6 +2,10 @@
 using UnityEngine.EventSystems;
 using System.Collections;
 
+/*
+
+    },
+ */
 public class ChannelLeftButton : MonoBehaviour,IPointerDownHandler, IPointerUpHandler
 {
     WorldManager worldMgr;
@@ -27,12 +31,16 @@ public class ChannelLeftButton : MonoBehaviour,IPointerDownHandler, IPointerUpHa
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         worldMgr.OnLeftButtonDown();
         canApplyButtonDown = false;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         worldMgr.OnLeftButtonUp();
     }
 }

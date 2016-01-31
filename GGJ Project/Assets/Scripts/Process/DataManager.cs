@@ -22,12 +22,14 @@ public class DataManager : MonoBehaviour
 {
     public TextAsset dataFileJson;
 
+    GameManager gameMgr;
     CreateInterval[] createIntervals;
     int[] townLevelUpgradeValues = new int[4];
     public int[] eventSuccessFollower = new int[5];
     public int[] eventFailFollower = new int[5];
     void Awake()
     {
+        gameMgr = GameObject.FindObjectOfType<GameManager>();
         LoadFile();
     }
 
@@ -75,6 +77,7 @@ public class DataManager : MonoBehaviour
                 return createIntervals[i];
             }
         }
+        
         throw new System.ArgumentException("Level Sum : " + levelSum.ToString());
     }
 

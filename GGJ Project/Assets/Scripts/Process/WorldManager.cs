@@ -45,6 +45,7 @@ public class WorldManager : MonoBehaviour
         while (gameMgr.isRun)
         {
             yield return new WaitForSeconds(nextWaitTime);
+
             GetNextEventCreateWorld().CreateEvent();
             CreateInterval interval = dataMgr.GetCreateInterval(GetAllTownLevelSum());
             nextWaitTime = Random.Range(interval.min, interval.max);
@@ -73,6 +74,15 @@ public class WorldManager : MonoBehaviour
         return sum;
     }
 
+    public World GetWorld(Town town)
+    {
+        for(int i = 0;i<worlds.Length;i++)
+        {
+            if (town.transform.IsChildOf(worlds[i].transform))
+                return worlds[i];
+        }
+        throw new System.ArgumentException();
+    }
     public void OnLeftButtonDown()
     {
         ShowNoise();

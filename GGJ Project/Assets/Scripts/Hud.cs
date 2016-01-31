@@ -15,7 +15,7 @@ public class Hud : MonoBehaviour
 	void Start()
     {
         gameMgr = FindObjectOfType<GameManager>();
-        gameMgr.onScoreChanged += SetScoreLbl;
+        gameMgr.onFollowerChanged += SetScoreLbl;
         StartCoroutine(Timer());
 	}
 	

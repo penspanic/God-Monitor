@@ -27,12 +27,16 @@ public class ChannelRightButton : MonoBehaviour, IPointerDownHandler, IPointerUp
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         worldMgr.OnRightButtonDown();
         canApplyButtonDown = false;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (Time.timeScale == 0)
+            return;
         worldMgr.OnRightButtonUp();
     }
 }

@@ -4,13 +4,13 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
-    public System.Action<int> onScoreChanged;
+    public System.Action<int> onFollowerChanged;
 
     public Image approvalRatingImage;
     public GameObject gameOver;
     public GameObject gameClear;
 
-    const int approvalRatingLosePoint = 50;
+    const int approvalRatingLosePoint = 10;
     const int approvalRatingIncreasePoint = 5;
 
     WorldManager worldMgr;
@@ -18,38 +18,54 @@ public class GameManager : MonoBehaviour
     public bool isRun = true;
 
     public int clearedEventCount = 0;
-    int ClearedEventCount
-    {
-        set {
-            clearedEventCount = value;
-            if(onScoreChanged != null)
-                onScoreChanged(clearedEventCount);
-        }
-        get { return clearedEventCount; }
-    }
 
     int failedEventCount = 0;
     int goatGetCount = 0;
 
-    public int follower = 0;
+    int follower = 0;
 
-    public Text gameOverTimeText;
+    public int Follower
+    {
+        set
+        {
+            follower = value;
+            if (onFollowerChanged != null)
+                onFollowerChanged(follower);
+        }
+        get { return follower; }
+    }
+
+    public bool isPaused
+    {
+        get;
+        private set;
+    }
+
     public Text gameOverFollowerText;
     public Text gameOverGoatGetText;
 
+    public Text gameClearFollowerText;
+    public Text gameClearGoatGetText;
+
+    AudioSource bgmAudioSource;
+    public AudioSource effectSoundSource;
     public AudioSource teleportSource;
     public AudioClip teleportSound;
     public AudioClip dropSound;
+    public AudioClip gameOverSound;
+    public AudioClip replaySound;
 
     public GameObject teleport;
     public GameObject goatPrefab;
 
-    System.DateTime startTime;
+    public GameObject pauseUI;
+    public GameObject followerObj;
+
     void Awake()
     {
+        bgmAudioSource = GetComponent<AudioSource>();
         worldMgr = GameObject.FindObjectOfType<WorldManager>();
         SetApprovalRatingImage();
-        startTime = System.DateTime.Now;
     }
 
     void Start()
@@ -58,7 +74,7 @@ public class GameManager : MonoBehaviour
     }
     public void EventCleared()
     {
-        ClearedEventCount++;
+        clearedEventCount++;
         int levelSum = worldMgr.GetAllTownLevelSum();
         if (levelSum >= 75)
             GameClear();
@@ -70,6 +86,9 @@ public class GameManager : MonoBehaviour
 
     public void EventDestroyed()
     {
+        if (!isRun)
+            return;
+
         failedEventCount++;
         approvalRating -= approvalRatingLosePoint;
         SetApprovalRatingImage();
@@ -92,14 +111,16 @@ public class GameManager : MonoBehaviour
 
     public void ReplayGame()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        effectSoundSource.PlayOneShot(replaySound);
+        GameObject.FindObjectOfType<Canvas>().sortingLayerName = "Fade";
+        StartCoroutine(SceneFader.Instance.FadeOut(1f, "InGame"));
     }
 
-    public string GetFormattedTime()
+    public void ExitGame()
     {
-        System.TimeSpan playTime = System.DateTime.Now - startTime;
-        string s = playTime.Minutes.ToString() + " : " + playTime.Seconds.ToString();
-        return s;
+        GameObject.FindObjectOfType<Canvas>().sortingLayerName = "Fade";
+        StartCoroutine(SceneFader.Instance.FadeOut(1f, "Title"));
+        StartCoroutine(SceneFader.Instance.SoundFadeOut(1f, GameObject.FindObjectsOfType<AudioSource>()));
     }
 
     void SetApprovalRatingImage()
@@ -110,16 +131,41 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         isRun = false;
+        isPaused = true;
         gameOver.SetActive(true);
 
-        string s = GetFormattedTime();
-        gameOverTimeText.text = s;
         gameOverFollowerText.text = follower.ToString();
         gameOverGoatGetText.text = goatGetCount.ToString();
+
+        Destroy(followerObj);
+        Destroy(pauseUI);
+
+        StartCoroutine(GameOverSoundProcess());
+
+
+    }
+
+    IEnumerator GameOverSoundProcess()
+    {
+        Debug.Log("fade Start");
+        yield return StartCoroutine(SceneFader.Instance.SoundFadeOut(0.1f, new AudioSource[] { bgmAudioSource }));
+        Debug.Log("fade End");
+
+        bgmAudioSource.volume = 1;
+        bgmAudioSource.clip = gameOverSound;
+        bgmAudioSource.Play();
     }
 
     void GameClear()
     {
+        isRun = false;
+        isPaused = true;
         gameClear.SetActive(true);
+
+        gameClearFollowerText.text = follower.ToString();
+        gameClearGoatGetText.text = goatGetCount.ToString();
+
+        Destroy(followerObj);
+        Destroy(pauseUI);
     }
 }

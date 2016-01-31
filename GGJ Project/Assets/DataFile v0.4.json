@@ -1,0 +1,67 @@
+﻿{
+    "Town Level Upgrade": {
+        "Level 1": 2,
+        "Level 2": 5,
+        "Level 3": 5,
+        "Level 4": 8
+    },
+    "Event Success Follower": {
+        "1": 100,
+        "2": 300,
+        "3": 1000,
+        "4": 5000,
+        "5": 10000
+    },
+    "Event Fail Follower": {
+        "1": 0,
+        "2": 50,
+        "3": 300,
+        "4": 1000,
+        "5": 1500
+    },
+    "Event Create Intervals": [
+
+        {
+            "Start Level": 15,
+            "End Level": 20,
+            "Min": 5,
+            "Max": 7
+        },
+        {
+            "Start Level": 21,
+            "End Level": 30,
+            "Min": 3,
+            "Max": 5
+        },
+        {
+            "Start Level": 31,
+            "End Level": 50,
+            "Min": 2,
+            "Max": 4
+        },
+        {
+            "Start Level": 51,
+            "End Level": 60,
+            "Min": 2,
+            "Max": 3
+        },
+        {
+            "Start Level": 61,
+            "End Level": 70,
+            "Min": 2,
+            "Max": 2.5
+        },
+        {
+            "Start Level": 71,
+            "End Level": 74,
+            "Min": 1.5,
+            "Max": 2.5
+        },
+        {
+            "Start Level": 75,
+            "End Level": 75,
+            "Min": 1,
+            "Max": 2
+        }
+    ]
+}

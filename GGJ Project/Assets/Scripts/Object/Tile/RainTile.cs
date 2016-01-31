@@ -16,7 +16,7 @@ public class RainTile : Tile
     {
         GameObject rainObj = Instantiate(rain);
         rainObj.transform.SetParent(targetEvent.town.transform);
-        rainObj.transform.localPosition = new Vector2(0, 3.5f);
+        rainObj.transform.localPosition = new Vector2(0, 3f);
 
         yield return new WaitForSeconds(5f);
         Destroy(rainObj);

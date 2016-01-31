@@ -15,7 +15,10 @@ public abstract class EventBase : MonoBehaviour
     }
     GameManager gameMgr;
     TileManager tileMgr;
+    Newsfeed newsfeed;
     public Tile currTile;
+    GameObject goatUseEffectPrefab;
+
 
     public abstract int ID
     {
@@ -23,12 +26,21 @@ public abstract class EventBase : MonoBehaviour
     }
 
     protected int eventIndex; // World's event index
-    bool isWaiting = true;
+    public bool isWaiting = true;
+
+    public Sprite[] messages;
+
     protected virtual void Awake()
     {
         gameMgr = GameObject.FindObjectOfType<GameManager>();
         tileMgr = GameObject.FindObjectOfType<TileManager>();
+        newsfeed = GameObject.FindObjectOfType<Newsfeed>();
 
+        goatUseEffectPrefab = Resources.Load<GameObject>("Prefabs/Goat Use");
+
+        GetComponent<SpriteRenderer>().sprite = messages[Random.Range(0, 3)];
+
+        transform.localScale = Vector2.one * 1.5f;
     }
 
     float elapsedTime = 0f;
@@ -59,6 +71,7 @@ public abstract class EventBase : MonoBehaviour
         this.world = world;
         this.town = town;
         town.ShowMessage(this);
+        //newsfeed.PushEvent(this);
     }
     
     public void TileAttatched(Tile tile)
@@ -74,6 +87,8 @@ public abstract class EventBase : MonoBehaviour
 
     public void GoatUse()
     {
+        GameObject goatEffectObj = Instantiate(goatUseEffectPrefab);
+        goatEffectObj.transform.position = new Vector2(this.transform.position.x, this.transform.position.y + 2);
         world.EventDestroyed(eventIndex);
         town.EventCleared();
         gameMgr.EventCleared();

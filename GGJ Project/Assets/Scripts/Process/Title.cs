@@ -8,17 +8,40 @@ public class Title : MonoBehaviour
 
     AudioSource audioSource;
     public AudioClip startSound;
+
+    public bool isChanging; 
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         StartCoroutine(TitleMove());
     }
 
+    void Start()
+    {
+        StartCoroutine(SceneFader.Instance.FadeIn(1f));
+    }
+
+    int escapeCount = 0;
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            escapeCount++;
+
+            if(escapeCount >=3)
+            {
+                Application.Quit();
+            }
+        }
+    }
     public void OnStartButtonDown()
     {
+        if (isChanging)
+            return;
         audioSource.volume = 2;
         audioSource.PlayOneShot(startSound);
-        StartCoroutine(SceneFader.Instance.FadeOut(1f, "InGame"));
+        isChanging = true;
+        StartCoroutine(SceneFader.Instance.FadeOut(1f, "Intro"));
     }
 
     IEnumerator TitleMove()
