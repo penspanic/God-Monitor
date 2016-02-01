@@ -30,6 +30,12 @@ public class SceneFader : MonoBehaviour
         black = Resources.Load<Sprite>("Black");
     }
 
+    public void FillScreenBlack()
+    {
+        img.enabled = true;
+        img.sprite = black;
+    }
+
     public IEnumerator FadeOut(float duration, string nextScene = null)
     {
         float fadeAlpha = 0;

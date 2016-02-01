@@ -71,7 +71,7 @@ public abstract class EventBase : MonoBehaviour
         this.world = world;
         this.town = town;
         town.ShowMessage(this);
-        //newsfeed.PushEvent(this);
+        newsfeed.PushEvent(this);
     }
     
     public void TileAttatched(Tile tile)

@@ -24,6 +24,15 @@ public class Intro : MonoBehaviour
         StartCoroutine(IntroProcess());
     }
 
+    int inputCount = 0;
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+            inputCount++;
+        if (inputCount >= 2)
+            SceneChange();
+
+    }
     IEnumerator IntroProcess()
     {
         int firstLineCount = 0;
@@ -114,9 +123,16 @@ public class Intro : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
+        SceneChange();
+    }
+    bool isChanging = false;
+    void SceneChange()
+    {
+        if (isChanging)
+            return;
+        isChanging = true;
         StartCoroutine(SceneFader.Instance.FadeOut(1f, "InGame"));
     }
-
     void PlaySound()
     {
         audioSource.PlayOneShot(typeSound);

@@ -53,6 +53,7 @@ public class GameManager : MonoBehaviour
     public AudioClip teleportSound;
     public AudioClip dropSound;
     public AudioClip gameOverSound;
+    public AudioClip gameClearSound;
     public AudioClip replaySound;
 
     public GameObject teleport;
@@ -63,9 +64,13 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+        SceneFader.Instance.FillScreenBlack();
         bgmAudioSource = GetComponent<AudioSource>();
         worldMgr = GameObject.FindObjectOfType<WorldManager>();
         SetApprovalRatingImage();
+
+        if (GameObject.Find("Title BGM") != null)
+            Destroy(GameObject.Find("Title BGM"));
     }
 
     void Start()
@@ -147,9 +152,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator GameOverSoundProcess()
     {
-        Debug.Log("fade Start");
         yield return StartCoroutine(SceneFader.Instance.SoundFadeOut(0.1f, new AudioSource[] { bgmAudioSource }));
-        Debug.Log("fade End");
 
         bgmAudioSource.volume = 1;
         bgmAudioSource.clip = gameOverSound;
@@ -167,5 +170,16 @@ public class GameManager : MonoBehaviour
 
         Destroy(followerObj);
         Destroy(pauseUI);
+
+        StartCoroutine(GameClearSoundProcess());
+    }
+
+    IEnumerator GameClearSoundProcess()
+    {
+        yield return StartCoroutine(SceneFader.Instance.SoundFadeOut(0.1f, new AudioSource[] { bgmAudioSource }));
+
+        bgmAudioSource.volume = 1;
+        bgmAudioSource.clip = gameClearSound;
+        bgmAudioSource.Play();
     }
 }

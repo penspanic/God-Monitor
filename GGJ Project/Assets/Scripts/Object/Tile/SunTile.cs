@@ -15,7 +15,7 @@ public class SunTile : Tile
     {
         GameObject lightObj = Instantiate(light);
         lightObj.transform.SetParent(targetEvent.town.transform);
-        lightObj.transform.localPosition = new Vector2(0, 2.5f);
+        lightObj.transform.localPosition = new Vector2(0, 2.3f);
 
         float elapsedTime = 0f;
         while(true)

@@ -24,7 +24,7 @@ public class Rain : MonoBehaviour
         {
             float x = Random.Range(cloudBounds.min.x, cloudBounds.max.x);
             float y = Random.Range(cloudBounds.min.y, cloudBounds.max.y);
-            Vector3 pos = new Vector3(x,y,0);
+            Vector3 pos = new Vector3(x, y, 0);
             cloud.transform.position = pos;
         }
 	}

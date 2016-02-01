@@ -9,9 +9,15 @@ public class Credit : MonoBehaviour
     void Awake()
     {
         StartCoroutine(SceneFader.Instance.FadeIn(1f));
+        Invoke("FadeInEnd", 1f);
     }
 
-    bool isMoving = true;
+    void FadeInEnd()
+    {
+        isMoving = true;
+    }
+
+    bool isMoving = false;
     void Update()
     {
         if (isMoving)
@@ -21,6 +27,9 @@ public class Credit : MonoBehaviour
             if (texts.transform.position.y > 8)
                 ReturnToTitle();
         }
+        if (Input.GetMouseButtonDown(0) && isMoving)
+            ReturnToTitle();
+
     }
 
     void ReturnToTitle()
