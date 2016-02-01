@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
 
     public void ExitGame()
     {
+        Time.timeScale = 1;
         GameObject.FindObjectOfType<Canvas>().sortingLayerName = "Fade";
         StartCoroutine(SceneFader.Instance.FadeOut(1f, "Title"));
         StartCoroutine(SceneFader.Instance.SoundFadeOut(1f, GameObject.FindObjectsOfType<AudioSource>()));

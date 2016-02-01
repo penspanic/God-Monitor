@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Title : MonoBehaviour
 {
+    public static bool isFirstGame = true;
+
     public GameObject[] goats;
 
     public GameObject titleObj;
@@ -64,7 +66,15 @@ public class Title : MonoBehaviour
         audioSource.volume = 2;
         audioSource.PlayOneShot(startSound);
         isChanging = true;
-        StartCoroutine(SceneFader.Instance.FadeOut(1f, "Intro"));
+        if( isFirstGame )
+        {
+            isFirstGame = false;
+            StartCoroutine( SceneFader.Instance.FadeOut( 1f, "Intro" ) );
+        }
+        else
+        {
+            StartCoroutine( SceneFader.Instance.FadeOut( 1f, "InGame" ) );
+        }
     }
 
     IEnumerator TitleMove()
