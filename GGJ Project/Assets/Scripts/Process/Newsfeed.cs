@@ -20,14 +20,19 @@ public class Newsfeed : MonoBehaviour
     WorldManager worldMgr;
     Queue<MessageInfo> messageQueue = new Queue<MessageInfo>();
 
+    AudioSource audioSource;
+
     void Awake()
     {
         worldMgr = GameObject.FindObjectOfType<WorldManager>();
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(MessageDelete());
     }
 
     public void PushEvent(EventBase targetEvent)
     {
+        audioSource.Play();
+
         World targetWorld = worldMgr.GetWorld(targetEvent.town);
 
         string eventName = targetEvent.GetComponent<SpriteRenderer>().sprite.name;
