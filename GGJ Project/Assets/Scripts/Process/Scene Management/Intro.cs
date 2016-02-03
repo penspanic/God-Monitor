@@ -35,8 +35,6 @@ public class Intro : MonoBehaviour
     }
     IEnumerator IntroProcess()
     {
-        int firstLineCount = 0;
-
         yield return new WaitForSeconds(1f);
         for (int i = 0; i < 4; i++)
         {

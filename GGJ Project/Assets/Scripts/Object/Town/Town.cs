@@ -29,7 +29,6 @@ public class Town : MonoBehaviour
     AudioSource audioSource;
     static AudioClip successClip;
     static AudioClip failClip;
-    static GameObject message;
 
 
     GameObject levelUpParticle;
@@ -47,7 +46,6 @@ public class Town : MonoBehaviour
             townSprites = Resources.LoadAll<Sprite>("Town");
             successClip = Resources.Load<AudioClip>("Sounds/ritual_success_01");
             failClip = Resources.Load<AudioClip>("Sounds/ritual_fail_01");
-            message = Resources.Load<GameObject>("Prefabs/Message");
         }
         sprRenderer.sprite = townSprites[0];
 

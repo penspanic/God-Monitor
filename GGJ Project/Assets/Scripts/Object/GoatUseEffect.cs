@@ -4,11 +4,6 @@ using System.Collections;
 public class GoatUseEffect : MonoBehaviour
 {
     float speed = 0.5f;
-    Animator animator;
-    void Awake()
-    {
-        animator = GetComponent<Animator>();
-    }
 
     void Update()
     {

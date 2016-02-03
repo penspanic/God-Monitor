@@ -5,12 +5,10 @@ using UnityEngine.EventSystems;
 public class DragDropSlot : MonoBehaviour, IDropHandler
 {
     EventBase targetEvent;
-    TileManager tileMgr;
 
     void Awake()
     {
         targetEvent = GetComponent<EventBase>();
-        tileMgr = GameObject.FindObjectOfType<TileManager>();
     }
 
     private GameObject GetItem()

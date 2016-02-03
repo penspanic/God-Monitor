@@ -3,7 +3,7 @@ using System.Collections;
 
 public class SunTile : Tile
 {
-    public GameObject light;
+    public new GameObject light;
     EventBase targetEvent;
     public override void UseTile(EventBase targetEvent)
     {

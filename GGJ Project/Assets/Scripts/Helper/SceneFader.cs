@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SceneFader : MonoBehaviour
 {
@@ -55,7 +56,7 @@ public class SceneFader : MonoBehaviour
         img.color = new Color(0, 0, 0, fadeAlpha);
 
         if (nextScene != null)
-            Application.LoadLevel(nextScene);
+            SceneManager.LoadScene(nextScene);
     }
 
     public IEnumerator FadeIn(float duration, string nextScene = null)
@@ -76,7 +77,7 @@ public class SceneFader : MonoBehaviour
         img.enabled = false;
 
         if (nextScene != null)
-            Application.LoadLevel(nextScene);
+            SceneManager.LoadScene(nextScene);
     }
 
     public IEnumerator SoundFadeOut(float duration, AudioSource[] audioSources) // 점점 작아지게

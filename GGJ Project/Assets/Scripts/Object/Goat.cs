@@ -10,7 +10,7 @@ public class Goat : MonoBehaviour
 
     Vector2 targetPos;
     Animator animator;
-    SpriteRenderer renderer;
+    new SpriteRenderer renderer;
     AudioSource audioSource;
     bool isMoveRight = false;
 
