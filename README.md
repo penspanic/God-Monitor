@@ -5,9 +5,13 @@ Become a god, pay attention to people's rituals, grant their wishes, and get mor
 
 #credits
 Game Design : Jaeeun Jung
+
 Art : Ohsoung Kwon, Yuseok Jin, Daejin Youn
+
 Sound : Jooeun Hwang(bahamute)
+
 Programming : Colt Bauman(cabauman), Geunhee Park(penspanic)
+
 
 You can download this game at here : 
 https://play.google.com/store/apps/details?id=com.FourTables.GodHelp
