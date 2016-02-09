@@ -3,7 +3,7 @@
 
 Become a god, pay attention to people's rituals, grant their wishes, and get more followers as many as possible. Some enthusiastic followers might insist sending you goats…which could be quite useful... @god#help is a fast-paced game simulating a god's demanding daily tasks. Make quick decisions not to disappoint the followers, and develop all the cities to the maximum levels to win.
 
-#credits
+#Credits
 Game Design : Jaeeun Jung
 
 Art : Ohsoung Kwon, Yuseok Jin, Daejin Youn
