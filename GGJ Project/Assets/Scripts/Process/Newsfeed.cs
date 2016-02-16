@@ -29,12 +29,13 @@ public class Newsfeed : MonoBehaviour
         StartCoroutine(MessageDelete());
     }
 
-    public void PushEvent(EventBase targetEvent)
+    public void PushEvent(EventBase targetEvent) // Calls when ritual events created.
     {
-        audioSource.Play();
+        audioSource.Play(); // Notification sound
 
         World targetWorld = worldMgr.GetWorld(targetEvent.town);
-
+  
+        // Set notification message.
         string eventName = targetEvent.GetComponent<SpriteRenderer>().sprite.name;
         string message = "@god" + "  #" + eventName + "  #" + GetWorldName(targetWorld);
 
@@ -46,7 +47,7 @@ public class Newsfeed : MonoBehaviour
 
         foreach (MessageInfo eachInfo in messageQueue)
         {
-            StartCoroutine(MoveUpward(eachInfo.messageText));
+            StartCoroutine(MoveUpward(eachInfo.messageText)); // Move upward old messages.
         }
     }
 
